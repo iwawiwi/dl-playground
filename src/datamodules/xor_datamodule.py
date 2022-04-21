@@ -3,7 +3,9 @@ from typing import Optional, Tuple
 import torch
 from pytorch_lightning import LightningDataModule
 from torch.utils.data import DataLoader, Dataset, random_split
+
 from src.datamodules.components.simple_dataset import XORDataset
+
 
 class XORDataModule(LightningDataModule):
     """
@@ -25,9 +27,9 @@ class XORDataModule(LightningDataModule):
 
     def __init__(
         self,
-        size: int=100000,
+        size: int = 100000,
         train_val_test_split: Tuple[float, float, float] = (0.8, 0.1, 0.1),
-        std: float=0.1,
+        std: float = 0.1,
         batch_size: int = 128,
         num_workers: int = 4,
         pin_memory: bool = False,
@@ -64,9 +66,9 @@ class XORDataModule(LightningDataModule):
             # load all training samples
             allset = XORDataset(self.hparams.size, self.hparams.std)
             lengths = [
-                int(self.hparams.size*self.hparams.train_val_test_split[0]), 
-                int(self.hparams.size*self.hparams.train_val_test_split[1]), 
-                int(self.hparams.size*self.hparams.train_val_test_split[2])
+                int(self.hparams.size * self.hparams.train_val_test_split[0]),
+                int(self.hparams.size * self.hparams.train_val_test_split[1]),
+                int(self.hparams.size * self.hparams.train_val_test_split[2]),
             ]
             self.data_train, self.data_val, self.data_test = random_split(
                 dataset=allset,

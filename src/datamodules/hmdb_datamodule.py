@@ -7,6 +7,7 @@ from torchvision.transforms import transforms
 
 from src.utils import hmbd_utils as T
 
+
 class Hmdb51DataModule(LightningDataModule):
     """
     Example of LightningDataModule for HMDB51 dataset.
@@ -65,30 +66,54 @@ class Hmdb51DataModule(LightningDataModule):
 
         # define transforms for training, validation and testing
         if not self.train_transforms and not self.test_transforms:
-            self.train_transforms = transforms.Compose([
-                            T.ToFloatTensorInZeroOne(),
-                            T.Resize((128, 171)),
-                            T.RandomHorizontalFlip(),
-                            T.Normalize(mean=[0.43216, 0.394666, 0.37645], std=[0.22803, 0.22145, 0.216989]),
-                            T.RandomCrop((112, 112))
-                        ])  
-            self.test_transforms =  transforms.Compose([
-                            T.ToFloatTensorInZeroOne(),
-                            T.Resize((128, 171)),
-                            T.Normalize(mean=[0.43216, 0.394666, 0.37645], std=[0.22803, 0.22145, 0.216989]),
-                            T.CenterCrop((112, 112))
-                        ])
+            self.train_transforms = transforms.Compose(
+                [
+                    T.ToFloatTensorInZeroOne(),
+                    T.Resize((128, 171)),
+                    T.RandomHorizontalFlip(),
+                    T.Normalize(
+                        mean=[0.43216, 0.394666, 0.37645], std=[0.22803, 0.22145, 0.216989]
+                    ),
+                    T.RandomCrop((112, 112)),
+                ]
+            )
+            self.test_transforms = transforms.Compose(
+                [
+                    T.ToFloatTensorInZeroOne(),
+                    T.Resize((128, 171)),
+                    T.Normalize(
+                        mean=[0.43216, 0.394666, 0.37645], std=[0.22803, 0.22145, 0.216989]
+                    ),
+                    T.CenterCrop((112, 112)),
+                ]
+            )
 
         # load datasets only if they're not loaded already
         if not self.data_train and not self.data_val and not self.data_test:
             # load all training samples
-            train_all = HMDB51(self.hparams.data_dir, self.hparams.annotation_path, self.hparams.frames_per_clip, self.hparams.step_between_clips, train=True, transform=self.train_transforms)
+            train_all = HMDB51(
+                self.hparams.data_dir,
+                self.hparams.annotation_path,
+                self.hparams.frames_per_clip,
+                self.hparams.step_between_clips,
+                train=True,
+                transform=self.train_transforms,
+            )
             # split all training into train and val based on validation split
             total_train_samples = len(train_all)
             total_val_samples = round(self.hparams.val_split * total_train_samples)
-            self.data_train, self.data_val = random_split(train_all, [total_train_samples - total_val_samples, total_val_samples])
+            self.data_train, self.data_val = random_split(
+                train_all, [total_train_samples - total_val_samples, total_val_samples]
+            )
             # load test samples
-            self.data_test = HMDB51(self.hparams.data_dir, self.hparams.annotation_path, self.hparams.frames_per_clip, self.hparams.step_between_clips, train=False, transform=self.test_transforms)
+            self.data_test = HMDB51(
+                self.hparams.data_dir,
+                self.hparams.annotation_path,
+                self.hparams.frames_per_clip,
+                self.hparams.step_between_clips,
+                train=False,
+                transform=self.test_transforms,
+            )
 
     def train_dataloader(self):
         return DataLoader(

@@ -1,17 +1,18 @@
-import torch
 import random
+
+import torch
 
 
 def crop(vid, i, j, h, w):
-    return vid[..., i:(i + h), j:(j + w)]
+    return vid[..., i : (i + h), j : (j + w)]
 
 
 def center_crop(vid, output_size):
     h, w = vid.shape[-2:]
     th, tw = output_size
 
-    i = int(round((h - th) / 2.))
-    j = int(round((w - tw) / 2.))
+    i = int(round((h - th) / 2.0))
+    j = int(round((w - tw) / 2.0))
     return crop(vid, i, j, th, tw)
 
 
@@ -22,7 +23,7 @@ def hflip(vid):
 # NOTE: for those functions, which generally expect mini-batches, we keep them
 # as non-minibatch so that they are applied as if they were 4d (thus image).
 # this way, we only apply the transformation in the spatial domain
-def resize(vid, size, interpolation='bilinear'):
+def resize(vid, size, interpolation="bilinear"):
     # NOTE: using bilinear interpolation because we don't work on minibatches
     # at this level
     scale = None
@@ -30,7 +31,8 @@ def resize(vid, size, interpolation='bilinear'):
         scale = float(size) / min(vid.shape[-2:])
         size = None
     return torch.nn.functional.interpolate(
-        vid, size=size, scale_factor=scale, mode=interpolation, align_corners=False)
+        vid, size=size, scale_factor=scale, mode=interpolation, align_corners=False
+    )
 
 
 def pad(vid, padding, fill=0, padding_mode="constant"):
@@ -52,14 +54,14 @@ def normalize(vid, mean, std):
 
 # Class interface
 
+
 class RandomCrop(object):
     def __init__(self, size):
         self.size = size
 
     @staticmethod
     def get_params(vid, output_size):
-        """Get parameters for ``crop`` for a random crop.
-        """
+        """Get parameters for ``crop`` for a random crop."""
         h, w = vid.shape[-2:]
         th, tw = output_size
         if w == tw and h == th:

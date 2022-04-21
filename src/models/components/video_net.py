@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from torchvision.models.video import r3d_18
+
 
 class SimpleResNet3D_18(nn.Module):
     def __init__(self) -> None:

@@ -120,5 +120,8 @@ class XORLitModule(LightningModule):
             https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html#configure-optimizers
         """
         return torch.optim.SGD(
-            self.parameters(), lr=self.hparams.lr, momentum=0.9, weight_decay=self.hparams.weight_decay
+            self.parameters(),
+            lr=self.hparams.lr,
+            momentum=0.9,
+            weight_decay=self.hparams.weight_decay,
         )
