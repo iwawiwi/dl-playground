@@ -1,0 +1,3 @@
+_target_: src.models.hmdb_module.Hmdb51LitModule
+
+lr: 0.01

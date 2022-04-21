@@ -1,0 +1,10 @@
+_target_: src.datamodules.hmdb_datamodule.Hmdb51DataModule
+
+data_dir: ${data_dir}/hmdb51/video_data # data_dir is specified in train/test.yaml
+annotation_path: ${data_dir}/hmdb51/test_train_splits
+val_split: 0.05
+frames_per_clip: 16
+step_between_clips: 50
+batch_size: 16
+num_workers: 4
+pin_memory: True
