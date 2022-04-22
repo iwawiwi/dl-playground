@@ -1,0 +1,6 @@
+_target_: src.models.lrw_module.LRWLitModule
+
+lr: 0.01
+n_class: 500
+border: False
+se: False
