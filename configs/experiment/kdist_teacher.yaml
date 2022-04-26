@@ -1,0 +1,39 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /datamodule: imfolder.yaml
+  - override /model: kdist.yaml
+  - override /callbacks: default.yaml
+  - override /logger: wandb.yaml
+  - override /trainer: default.yaml
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+# name of the run determines folder name in logs
+name: "kdist_teacher"
+
+seed: 2604
+
+trainer:
+  gpus: 1
+  min_epochs: 10
+  max_epochs: 30
+
+model:
+  _target_: src.models.kdist_module.StudentTrainingModule
+
+  student_model: "densenet121"
+  image_size: 244 
+  num_classes: 10 
+  lr: 0.001 
+  weight_decay: 0
+  pretrained: False
+
+logger:
+  wandb:
+    project: "kdist-teacher"
+    tags: ["kdist", "${name}"]

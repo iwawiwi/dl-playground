@@ -1,0 +1,6 @@
+_target_: src.models.kdist_module.DistilledTrainingModule
+
+student_model: "simple"
+image_size: 244 
+num_classes: 10
+pretrained: False
