@@ -21,8 +21,9 @@ seed: 2604
 trainer:
   gpus: 1
   min_epochs: 10
-  max_epochs: 30
+  max_epochs: 25
 
+# train teacher as standalone student training
 model:
   _target_: src.models.kdist_module.StudentTrainingModule
 
@@ -31,7 +32,7 @@ model:
   num_classes: 10 
   lr: 0.001 
   weight_decay: 0
-  pretrained: False
+  pretrained: True
 
 logger:
   wandb:

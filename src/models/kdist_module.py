@@ -125,9 +125,9 @@ class DistilledTrainingModule(StudentTrainingModule):
         # it also ensures init params will be stored in ckpt
         self.save_hyperparameters(logger=False)
 
-        super().__init__(model_name=student_model, **self.hparams)
+        super().__init__(student_model=student_model, image_size=image_size, num_classes=num_classes, lr=lr, weight_decay=weight_decay, pretrained=pretrained)
         self.distill_loss = nn.MSELoss()
-        self.teacher_model = self.load_model(self.hparams.teacher_model, pretrained=True)
+        self.teacher_model = self.load_model(self.hparams.teacher_model)
         # load saved weights
         self.teacher_model.load_model()
         # freeze teacher weights
@@ -137,8 +137,17 @@ class DistilledTrainingModule(StudentTrainingModule):
     def training_step(self, batch, batch_idx):
         images, labels = batch
         
-        student_pred = self.forward(images)                 # student prediction
-        teacher_pred = self.teacher_model.forward(images)   # teacher prediction
+        student_pred = self.forward(images)                     # student prediction
+        teacher_pred = self.teacher_model.forward(images)       # teacher prediction
 
-        loss = self.distill_loss(student_pred, teacher_pred)
-        return {"loss": loss, 'log': {'train_loss': loss}}
+        loss = self.distill_loss(student_pred, teacher_pred)    # loss based on mse loss between student_pred and teacher_pred 
+
+        # log train metrics
+        acc = self.train_acc(student_pred, labels)              # accuracy of student based on true target label
+        self.log("train/loss", loss, on_step=False, on_epoch=True, prog_bar=False)
+        self.log("train/acc", acc, on_step=False, on_epoch=True, prog_bar=True)
+
+        # we can return here dict with any tensors
+        # and then read it in some callback or in `training_epoch_end()`` below
+        # remember to always return loss from `training_step()` or else backpropagation will fail!
+        return {"loss": loss, "preds": student_pred, "targets": labels}
