@@ -1,7 +1,11 @@
 _target_: src.models.xor_module.XORLitModule
 
-input_size: 2
-lin1_size: 4
-output_size: 1
+net:
+  _target_: src.models.components.simple_dense_net.TwoLayerLinearClassifier
+  hparams:
+    input_size: 2
+    lin1_size: 16
+    output_size: 1
+
 lr: 0.1
 weight_decay: 0.0005

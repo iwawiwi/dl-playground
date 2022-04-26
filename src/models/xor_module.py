@@ -5,8 +5,6 @@ from pytorch_lightning import LightningModule
 from torchmetrics import MaxMetric
 from torchmetrics.classification.accuracy import Accuracy
 
-from src.models.components.simple_dense_net import TwoLayerLinearClassifier
-
 
 class XORLitModule(LightningModule):
     """
@@ -25,9 +23,7 @@ class XORLitModule(LightningModule):
 
     def __init__(
         self,
-        input_size: int = 2,
-        lin1_size: int = 4,
-        output_size: int = 1,
+        net: torch.nn.Module,
         lr: float = 0.1,
         weight_decay: float = 0.0005,
     ):
@@ -37,7 +33,7 @@ class XORLitModule(LightningModule):
         # it also ensures init params will be stored in ckpt
         self.save_hyperparameters(logger=False)
 
-        self.model = TwoLayerLinearClassifier(hparams=self.hparams)
+        self.model = net
 
         # loss function
         self.criterion = torch.nn.BCEWithLogitsLoss()

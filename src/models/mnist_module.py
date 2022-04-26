@@ -5,8 +5,6 @@ from pytorch_lightning import LightningModule
 from torchmetrics import MaxMetric
 from torchmetrics.classification.accuracy import Accuracy
 
-from src.models.components.simple_dense_net import SimpleDenseNet
-
 
 class MNISTLitModule(LightningModule):
     """
@@ -25,11 +23,7 @@ class MNISTLitModule(LightningModule):
 
     def __init__(
         self,
-        input_size: int = 784,
-        lin1_size: int = 256,
-        lin2_size: int = 256,
-        lin3_size: int = 256,
-        output_size: int = 10,
+        net: torch.nn.Module,
         lr: float = 0.001,
         weight_decay: float = 0.0005,
     ):
@@ -39,7 +33,8 @@ class MNISTLitModule(LightningModule):
         # it also ensures init params will be stored in ckpt
         self.save_hyperparameters(logger=False)
 
-        self.model = SimpleDenseNet(hparams=self.hparams)
+        # network config can be set from yaml file
+        self.model = net
 
         # loss function
         self.criterion = torch.nn.CrossEntropyLoss()
