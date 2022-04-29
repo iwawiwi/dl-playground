@@ -5,7 +5,7 @@
 
 defaults:
   - override /datamodule: imfolder.yaml
-  - override /model: kdist_teacher.yaml
+  - override /model: kdist_student.yaml
   - override /callbacks: default.yaml
   - override /logger: wandb.yaml
   - override /trainer: default.yaml
@@ -14,27 +14,27 @@ defaults:
 # this allows you to overwrite only specified parameters
 
 # name of the run determines folder name in logs
-name: "kdist_teacher"
+name: "kdist_student"
 
-seed: 2604
+seed: 2804
 
 trainer:
   gpus: 1
-  min_epochs: 10
-  max_epochs: 25
+  min_epochs: 5
+  max_epochs: 10
 
-# train teacher as standalone student training
+# replace default model to distilled model
 model:
-  _target_: src.models.kdist_module.TeacherTrainingModule
+  _target_: src.models.kdist_module.StudentTrainingModule
 
-  teacher_model_name: "densenet121"
+  student_model_name: "simple"
   image_size: 244
   num_classes: 10
   lr: 0.001
   weight_decay: 0
-  pretrained: True
+  pretrained: False
 
 logger:
   wandb:
-    project: "kdist-teacher"
+    project: "kdist-student"
     tags: ["kdist", "${name}"]

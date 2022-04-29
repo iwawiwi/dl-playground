@@ -1,0 +1,7 @@
+_target_: src.models.kdist_module.StudentTrainingModule
+
+teacher_model_path: "D:\\Academic\\Code\\dl-playground\\logs\\experiments\\runs\\kdist_teacher\\2022-04-29_10-18-08\\checkpoints\\epoch_024.ckpt"
+student_model_name: "simple"
+image_size: 244
+num_classes: 10
+pretrained: False

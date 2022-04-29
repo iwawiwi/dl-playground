@@ -1,0 +1,6 @@
+_target_: src.models.kdist_module.TeacherTrainingModule
+
+teacher_model_name: "densenet121"
+image_size: 244
+num_classes: 10
+pretrained: True
