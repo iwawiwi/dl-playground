@@ -1,0 +1,19 @@
+_target_: src.models.cifar_module.CIFARLitModule
+
+net:
+  _target_: src.models.components.simple_dense_net.SimpleDenseNet
+  hparams:
+    input_size: 1024
+    lin1_size: 512
+    lin2_size: 256
+    lin3_size: 128
+    output_size: 100
+
+optimizer:
+  name: "SGD"
+  lr: 0.001
+  momentum: 0.9
+  weight_decay: 0.0005
+
+criterion:
+  _target_: torch.nn.CrossEntropyLoss
