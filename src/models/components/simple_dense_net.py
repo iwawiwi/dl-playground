@@ -2,10 +2,7 @@ from torch import nn
 
 
 class SimpleDenseNet(nn.Module):
-    def __init__(
-        self, 
-        hparams: dict
-    ):
+    def __init__(self, hparams: dict):
         super().__init__()
 
         self.model = nn.Sequential(
@@ -31,10 +28,7 @@ class SimpleDenseNet(nn.Module):
 
 
 class TwoLayerLinearClassifier(nn.Module):
-    def __init__(
-        self, 
-        hparams: dict
-    ):
+    def __init__(self, hparams: dict):
         super().__init__()
 
         self.model = nn.Sequential(

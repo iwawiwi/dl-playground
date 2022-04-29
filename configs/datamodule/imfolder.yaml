@@ -1,8 +1,8 @@
 _target_: src.datamodules.imfolder_datamodule.ImageFolderDataModule
 
 data_dir: ${data_dir}/imagenette2 # data_dir is specified in train/test.yaml
-image_size: 224                   # this is default value
-num_class: 10                     # this is default value
+image_size: 224 # this is default value
+num_class: 10 # this is default value
 batch_size: 32
 num_workers: 4
 pin_memory: True

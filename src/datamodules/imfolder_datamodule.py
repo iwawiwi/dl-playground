@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import transforms
 
+
 class ImageFolderDataModule(LightningDataModule):
     """
     Example of LightningDataModule for ImageFolder dataset.
@@ -65,21 +66,19 @@ class ImageFolderDataModule(LightningDataModule):
             self.train_transforms = transforms.Compose(
                 [
                     transforms.RandomRotation(degrees=30),
-                    transforms.RandomResizedCrop((self.hparams.image_size, self.hparams.image_size)),
+                    transforms.RandomResizedCrop(
+                        (self.hparams.image_size, self.hparams.image_size)
+                    ),
                     transforms.RandomHorizontalFlip(),
                     transforms.ToTensor(),
-                    transforms.Normalize(
-                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
-                    ),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
                 ]
             )
             self.test_transforms = transforms.Compose(
                 [
                     transforms.Resize((self.hparams.image_size, self.hparams.image_size)),
                     transforms.ToTensor(),
-                    transforms.Normalize(
-                        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
-                    ),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
                 ]
             )
 
@@ -96,7 +95,6 @@ class ImageFolderDataModule(LightningDataModule):
             # load test samples, if available
             self.data_test = None
 
-            
     def train_dataloader(self):
         return DataLoader(
             dataset=self.data_train,
