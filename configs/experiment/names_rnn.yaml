@@ -1,0 +1,32 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /datamodule: names.yaml
+  - override /model: text.yaml
+  - override /callbacks: rich.yaml
+  - override /logger: null
+  - override /trainer: default.yaml
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+# name of the run determines folder name in logs
+name: "simple_rnn"
+
+seed: 505
+
+trainer:
+  min_epochs: 1
+  max_epochs: 3
+  gradient_clip_val: 0.5
+
+datamodule:
+  batch_size: 1
+  num_workers: 1
+
+logger:
+  wandb:
+    tags: ["names", "${name}"]

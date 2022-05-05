@@ -1,0 +1,9 @@
+_target_: src.models.text_module.TextLitModule
+
+net:
+  _target_: src.models.components.reccurent_net.SimpleRNN
+  in_size: 59
+  hidden_size: 256
+  out_size: 18
+lr: 0.001
+weight_decay: 0.0005
