@@ -1,0 +1,39 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /datamodule: imfolder.yaml
+  - override /model: efficientnet.yaml
+  - override /callbacks: default.yaml
+  - override /logger: null
+  - override /trainer: default.yaml
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+# name of the run determines folder name in logs
+name: "efficient_net"
+
+seed: 12345
+
+trainer:
+  gpus: 1
+  min_epochs: 10
+  max_epochs: 10
+  gradient_clip_val: 0.5
+
+model:
+  net:
+    _target_: src.models.components.efficient_net.EfficientNet
+    version: b0
+    num_classes: 10
+  lr: 0.002
+
+datamodule:
+  batch_size: 32
+
+logger:
+  wandb:
+    tags: ["efficient-net", "${name}"]

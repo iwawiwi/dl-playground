@@ -1,0 +1,9 @@
+_target_: src.models.imagenette_module.ImagenetteTrainingModule
+
+net:
+  _target_: src.models.components.efficient_net.EfficientNet
+  version: b1
+  num_classes: 10
+
+lr: 0.001
+weight_decay: 0.0005
