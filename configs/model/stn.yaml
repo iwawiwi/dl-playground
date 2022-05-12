@@ -1,0 +1,6 @@
+_target_: src.models.transformer_module.MnistTransformerLitModule
+
+net:
+  _target_: src.models.components.transformer_net.SpatialTransformerNet
+
+lr: 0.01
