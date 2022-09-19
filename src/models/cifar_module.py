@@ -129,4 +129,9 @@ class CIFARLitModule(LightningModule):
                 momentum=self.hparams.optimizer["momentum"],
                 weight_decay=self.hparams.optimizer["weight_decay"],
             )
+        elif self.hparams.optimizer["name"] == "RMSProp":
+            optimizer = torch.optim.RMSprop(
+                self.model.parameters(),
+                lr=self.hparams.optimizer["lr"],
+            )
         return optimizer

@@ -39,9 +39,7 @@ class CIFAR100Datamodule(LightningDataModule):
         self.save_hyperparameters(logger=False)
 
         # data transformations
-        self.transforms = transforms.Compose(
-            [transforms.Grayscale(), transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))]
-        )
+        self.transforms = transforms.Compose([transforms.ToTensor()])
 
         self.data_train: Optional[Dataset] = None
         self.data_val: Optional[Dataset] = None
